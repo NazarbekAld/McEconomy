@@ -23,6 +23,7 @@ public class MySqlAccess {
     public void installBase() throws SQLException {
         Statement s = getConnection().createStatement();
         s.executeQuery("CREATE TABLE if not exists `Basic` ( `UUID` TEXT NOT NULL COMMENT 'Player`s UUID' , `Balance` INT NOT NULL DEFAULT '0' COMMENT 'Player`s Balance' , `isFrozen` BOOLEAN NOT NULL DEFAULT FALSE COMMENT 'Must have index here. You can froze balance of dupers.' ) ENGINE = InnoDB;");
+        s.executeQuery("CREATE TABLE if not exists `Balances` ( `BalanceName` TEXT NOT NULL COMMENT 'Balance List' ) ENGINE = InnoDB;");
     } // Function creates default "Basic" table if not exist "Basic".
 
 

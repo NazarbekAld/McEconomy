@@ -1,9 +1,8 @@
 package api.economy.Functions;
 import api.economy.MySqlAccess;
 
-import java.sql.Connection;
-import java.sql.SQLException;
-import java.sql.Statement;
+import java.sql.*;
+import java.util.regex.Pattern;
 
 /*
     Multiple balances
@@ -15,12 +14,28 @@ import java.sql.Statement;
 
  */
 
+// Singleton class
 public class MultiBalance {
-
+    private static MultiBalance multibal = null;
+    public static MultiBalance getInstance(){
+        if (multibal == null)
+            multibal = new MultiBalance();
+        return multibal;
+    }
     public boolean createCurrency(String nameofbalance){
         try {
             Connection c = MySqlAccess.getInstance().getConnection();
-            Statement pre = c.prepareStatement("CREATE TABLE if not exists `" + nameofbalance + "` ( `UUID` TEXT NOT NULL COMMENT 'Player`s UUID' , `Balance` INT NOT NULL DEFAULT '0' COMMENT 'Player`s Balance' , `isFrozen` BOOLEAN NOT NULL DEFAULT FALSE COMMENT 'Must have index here. You can froze balance of dupers.' ) ENGINE = InnoDB");
+            Pattern pattern = Pattern.compile("[^A-Za-z0-9]");
+            if (!pattern.matcher(nameofbalance).find())
+                return false;
+            PreparedStatement pre = c.prepareStatement("SELECT * FROM `Balances` WHERE ?");
+            pre.setString(1, nameofbalance);
+            ResultSet result = pre.executeQuery();
+            if (!result.next())
+                return false;
+            pre = c.prepareStatement("INSERT INTO `Balances`(`BalanceName`) VALUES (?);");
+            pre.setString(1, nameofbalance);
+            pre.executeQuery();
             return true;
         } catch (SQLException e) {
             System.out.println("[EcoAPI] SQL query error: " + String.valueOf(e));

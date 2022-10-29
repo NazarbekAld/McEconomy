@@ -1,5 +1,6 @@
 package api.economy;
 
+import api.economy.Testing.Setup;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -13,6 +14,9 @@ public final class Economy extends JavaPlugin {
     @Override
     public void onEnable() {
         // Plugin Setup.
+
+        getServer().getPluginManager().registerEvents(new Setup(), this);
+
         this.saveDefaultConfig();
         try{
             MySqlAccess.getInstance().installBase();

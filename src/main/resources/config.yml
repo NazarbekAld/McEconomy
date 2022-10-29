@@ -9,3 +9,4 @@ SQLDatabaseName: "Eco" # Database name
 SQLUserName: "root" # Name of user in database
 
 SQLPassword: "" # Username`s password.
+
