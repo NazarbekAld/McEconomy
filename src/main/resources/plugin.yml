@@ -5,3 +5,7 @@ api-version: 1.16
 prefix: ECO
 authors: [ NazarbekAlda ]
 description: Economy Plugin
+commands:
+  bal:
+    permission: op
+    description: aaaaa

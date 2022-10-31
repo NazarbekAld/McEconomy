@@ -10,10 +10,8 @@ public class CreateMoney implements CommandExecutor {
 
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
-
         Player p = (Player) sender;
-        p.sendMessage("Your balance: " + balanceControl.getInstance().getBalance(p, "Basic").get(1).toString());
-
+        p.sendMessage("Your balance: " + balanceControl.getInstance().getBalance(p, "Basic").getValue());
         return true;
     }
 }

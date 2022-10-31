@@ -1,5 +1,5 @@
 package api.economy.Functions;
-import api.economy.MySqlAccess;
+import api.economy.SQL.MySqlAccess;
 
 import java.sql.*;
 import java.util.regex.Pattern;
