@@ -33,11 +33,11 @@ public class balanceControl {
                     continue;
                 PreparedStatement pre = c.prepareStatement("INSERT INTO `" + result.getString("BalanceName") + "`(`UUID`, `Balance`, `isFrozen`) VALUES (?, ?, ?);");
                 pre.setString(1, player.getUniqueId().toString());
-                pre.executeQuery();
+                pre.executeUpdate();
             }
         }
         catch (SQLException e){
-            System.out.println("[EcoAPI] SQL query error: " + String.valueOf(e));
+            System.out.println("[EcoAPI] SQL query error at balanceControl. Output: " + String.valueOf(e));
         }
     } // Register player on every balance.
 
@@ -58,7 +58,7 @@ public class balanceControl {
 
             return new Result(true, result.getInt("Balance"));
         } catch (SQLException e) {
-            System.out.println("[EcoAPI] SQL query error: " + String.valueOf(e));
+            System.out.println("[EcoAPI] SQL query error at balanceControl. Output: " + String.valueOf(e));
             return new Result(false, "Connection error");
         }
     } // Getting balance of player.
@@ -69,18 +69,22 @@ public class balanceControl {
             Pattern pattern = Pattern.compile("[^A-Za-z0-9]");
             if(!pattern.matcher(nameofbalance).find()) // Checks if string not have symbols. (We needed for avoid sql injections.)
                 return new Result(false, "Cannot use symbols!");
-            PreparedStatement pre = c.prepareStatement("UPDATE `" + nameofbalance + "` SET `UUID`=?,`Balance`=? WHERE ?;");
+            PreparedStatement pre = c.prepareStatement("SELECT * FROM `" + nameofbalance +"` WHERE ?");
             pre.setString(1, player.getUniqueId().toString());
-            pre.setInt(2, amount);
             ResultSet result = pre.executeQuery();
             if (!result.next())
                 return new Result(false, "Unknown result.");
             if (result.getBoolean("isFrozen"))
                 return new Result(false, "Balance is frozen.");
 
+            pre = c.prepareStatement("UPDATE `" + nameofbalance + "` SET `UUID`=?,`Balance`=? WHERE ?;");
+            pre.setString(1, player.getUniqueId().toString());
+            pre.setInt(2, amount);
+            pre.executeUpdate();
+
             return new Result(true, "Success!");
         } catch (SQLException e) {
-            System.out.println("[EcoAPI] SQL query error: " + String.valueOf(e));
+            System.out.println("[EcoAPI] SQL query error at balanceControl. Output: " + String.valueOf(e));
             return new Result(false, "Connection error!");
         }
     } // Set balance

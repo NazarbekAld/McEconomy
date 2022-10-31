@@ -38,7 +38,7 @@ public class MultiBalance {
             pre.executeQuery();
             return true;
         } catch (SQLException e) {
-            System.out.println("[EcoAPI] SQL query error: " + String.valueOf(e));
+            System.out.println("[EcoAPI] SQL query error at MutiBalance. Output: " + String.valueOf(e));
             return false;
         }
     } // Creating new currency.

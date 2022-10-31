@@ -23,6 +23,7 @@ public class SQLConfig {
         map.put("Database", plugin.getConfig().getString("SQLDatabaseName"));
         map.put("User",plugin.getConfig().getString("SQLUserName"));
         map.put("Password", plugin.getConfig().getString("SQLPassword"));
+        map.put("SSL", plugin.getConfig().getString("SQLSSL"));
         return map;
     }
 }

@@ -7,5 +7,5 @@ authors: [ NazarbekAlda ]
 description: Economy Plugin
 commands:
   bal:
-    permission: op
     description: aaaaa
+    permission: balance.bal.bal

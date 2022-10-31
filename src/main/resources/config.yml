@@ -10,3 +10,5 @@ SQLUserName: "root" # Name of user in database
 
 SQLPassword: "" # Username`s password.
 
+SQLSSL: "false" # IF YOUR HOST PROTECTED WITH SSL CONNECTION MAKE IT "true"!
+
