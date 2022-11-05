@@ -2,7 +2,39 @@ package api.economy.eco;
 
 import org.bukkit.entity.Player;
 
+import java.sql.SQLException;
+
 public class Balance {
+
+    private int amount;
+
+    public Player getOwner() {
+        return this.Owner;
+    }
+
+    public int getAmount() {
+        return this.Amount;
+    }
+
+    public String getNameOfBalance() {
+        return this.NameOfBalance;
+    }
+
+    public boolean isFrozen() {
+        return this.isFrozen;
+    }
+
+    public void setAmount(int amount) {
+        this.Amount = amount;
+    }
+
+    public void setNameOfBalance(String nameOfBalance) {
+        this.NameOfBalance = nameOfBalance;
+    }
+
+    public void setFrozen(boolean frozen) {
+        this.isFrozen = frozen;
+    }
 
     private final Player Owner;
     private int Amount;
@@ -10,38 +42,10 @@ public class Balance {
     private boolean isFrozen;
 
     public Balance(Player owner, int amount, String nameOfBalance, boolean isFrozen) {
-        Owner = owner;
-        setAmount(amount);
-        setNameOfBalance(nameOfBalance);
-        setFrozen(isFrozen);
-    }
-
-    public Player getOwner() {
-        return Owner;
-    }
-
-    public int getAmount() {
-        return Amount;
-    }
-
-    public String getNameOfBalance() {
-        return NameOfBalance;
-    }
-
-    public boolean isFrozen() {
-        return isFrozen;
-    }
-
-    public void setAmount(int amount) {
-        Amount = amount;
-    }
-
-    public void setNameOfBalance(String nameOfBalance) {
-        NameOfBalance = nameOfBalance;
-    }
-
-    public void setFrozen(boolean frozen) {
-        isFrozen = frozen;
+        this.Owner = owner;
+        this.Amount = amount;
+        this.NameOfBalance = nameOfBalance;
+        this.isFrozen = isFrozen;
     }
 
     public boolean Transfer(Balance balanceofpayee, int amount)
@@ -55,7 +59,12 @@ public class Balance {
         return true;
     }
 
-    public void saveToDatabase(){
-
+    public boolean saveToDatabase(){
+        try {
+            MultiBalance.getInstance().saveBalance(this);
+        } catch (SQLException e) {
+            return false;
+        }
+        return true;
     }
 }
